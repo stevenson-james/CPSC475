@@ -4,5 +4,8 @@
 # pycache
 **/__pycache__/
 
-# 
-!**/.idea/
+# idea
+.idea
+
+# buckeye corpus in Project 2-3
+**/buckeye
