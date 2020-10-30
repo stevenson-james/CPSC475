@@ -21,15 +21,11 @@ def tokenize(text_lst):
     return new_text_lst
 
 
-# TODO
 # gram_size > 0 and < 5
 def make_grams(sent_lst, gram_size):
-    print('TODO')
-
-
-def main():
-    list = get_data('pride_and_prejudice.txt')
-    tokenize(list)
-
-
-main()
+    n_grams = []
+    for line in sent_lst:
+        line = line.split()
+        for i in range(len(line) - gram_size + 1):
+            n_grams.append(line[i: i + gram_size])
+    return n_grams
