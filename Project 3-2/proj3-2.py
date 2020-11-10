@@ -7,7 +7,7 @@ import sys
 # File Name: proj3-2.py
 # Description: Program displays number of n-grams from user based on functions
 #   in nlpUtils.py
-# To Execute: python3 proj3-1.py <size of grams> <number of grams to display>
+# To Execute: python3 proj3-2.py
 
 
 """
