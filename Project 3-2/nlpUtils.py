@@ -8,8 +8,8 @@ import sys
 # Submitted By: James Stevenson
 # GU Username: jstevenson4
 # File Name: nlpUtils.py
-# Description: Program gives functionality for tokenizing an input file and 
-#   generating n-grams from tokenized file
+# Description: Program gives functionality for tokenizing an input file,
+#   generating n-grams from tokenized file, and generating random weighted n-grams
 # To Execute: import as a package in a main python script
 
 
@@ -61,6 +61,11 @@ def make_grams(sent_lst, gram_size):
     return n_grams
 
 
+"""
+Makes a dictionary of n-grams to their weight based on cumulative sums
+Pre: n_gram_counts is a Counter of all n_grams in a corpus
+Post: returns a dictionary of n_grams to weighted sums
+"""
 def compute_weights(n_gram_counts):
     n_gram_sum = sum(n_gram_counts.values())
     n_gram_weight_dict = {}
@@ -71,7 +76,12 @@ def compute_weights(n_gram_counts):
     return n_gram_weight_dict
 
 
-
+"""
+Makes a dictionary of n-grams to their weight based on cumulative sums
+    from list of n_grams
+Pre: n_gram_list is a list of all n_grams in corpus with repeats
+Post: returns a dictionary of n_grams to weighted sums
+"""
 def set_cumulative_weight_dictionary(n_gram_list):
     n_gram_tuples = [tuple(item) for item in n_gram_list]
     n_gram_counts = Counter(n_gram_tuples)
@@ -89,22 +99,32 @@ def make_choice(n_gram_weight_dict):
          return n_gram
 
 
+"""
+Makes the output object for use with printing random unigrams
+Pre: n_gram_weight_dict is a dictionary of n_grams to their weighted sums
+Post: returns a list of lines where each line is a list of 3 grams
+"""
 def generate_unigram_random_output(n_gram_weight_dict):
     output = []
     while len(output) < 5:
         line = []
+        # generating first gram
+        # must start with <s>
         n_gram = make_choice(n_gram_weight_dict)
         while n_gram[0] != '<s>' or n_gram[-1] == '</s>':
             n_gram = make_choice(n_gram_weight_dict)
         for word in n_gram:
                 line.append(word)
         
+        # generating middle gram
         n_gram = make_choice(n_gram_weight_dict)
         while n_gram[0] == '<s>' or n_gram[-1] == '</s>':
             n_gram = make_choice(n_gram_weight_dict)
         for word in n_gram:
             line.append(word)
         
+        # generating last gram
+        # must end with </s>
         n_gram = make_choice(n_gram_weight_dict)
         while n_gram[0] == '<s>' or n_gram[-1] != '</s>':
             n_gram = make_choice(n_gram_weight_dict)
@@ -116,9 +136,16 @@ def generate_unigram_random_output(n_gram_weight_dict):
     return output
 
 
+"""
+Makes the output object for use with printing random n-grams from 2-4
+Pre: n_gram_weight_dict is a dictionary of n_grams to their weighted sums
+Post: returns a list of lines where each line is a list of 12 grams maximum
+"""
 def generate_random_output(n_gram_weight_dict):
+    # get 'n' of n-grams
     n = len(next(iter(n_gram_weight_dict)))
 
+    # generate unigram output
     if n == 1:
         return generate_unigram_random_output(n_gram_weight_dict)
 
@@ -156,6 +183,11 @@ def generate_random_output(n_gram_weight_dict):
     return output
 
 
+"""
+Prints output object, limiting each line to 12 grams
+Pre: n_gram_weight_dict is a dictionary of n_grams to their weighted sums
+Post: prints output as shown in homework example
+"""
 def display_output(n_gram_weight_dict):
     n = len(next(iter(n_gram_weight_dict)))
     output = generate_random_output(n_gram_weight_dict)

@@ -22,6 +22,7 @@ def display(grams, num_grams):
 
 
 def main():
+    # change print() function to print to file 
     sys.stdout = open('Project 3-2 Example Output', 'w')
 
     for gram_size in range (1,5):
