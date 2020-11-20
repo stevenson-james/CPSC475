@@ -106,5 +106,9 @@ def main():
     for file_name in corpus:
         tfdif_dict_dictionary[file_name] = find_tfidf(tf_dict_dictionary[file_name], idf_dictionary)
 
+    for file_name in tfdif_dict_dictionary.keys():
+        print('\n\n--------', file_name, '--------')
+        for word in tfdif_dict_dictionary[file_name].keys():
+            print(word, ':', tfdif_dict_dictionary[file_name][word])
 
 main()
